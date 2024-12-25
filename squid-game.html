@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Squid Game 2 - Compte à Rebours</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: #000000;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('https://images6.alphacoders.com/119/1191374.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.7;
+            z-index: -1;
+        }
+
+        h1 {
+            font-size: 3rem;
+            text-align: center;
+            color: #ff0000;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
+        }
+
+        #countdown {
+            font-size: 2rem;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .time {
+            display: inline-block;
+            margin: 0 10px;
+            text-align: center;
+        }
+
+        .time span {
+            display: block;
+            font-size: 4rem;
+            font-weight: bold;
+        }
+
+        .time label {
+            font-size: 1.2rem;
+            color: #ffcccc;
+        }
+
+        footer {
+            position: absolute;
+            bottom: 20px;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        #play-audio {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+            padding: 10px 20px;
+            background-color: #ff0000;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <audio id="background-audio" loop muted>
+        <source src="Squid Game Intro - Sound Effect (HD).mp3" type="audio/mp3">
+        Votre navigateur ne prend pas en charge l'audio.
+    </audio>
+
+    <button id="play-audio">Activer le son</button>
+
+    <h1>Sortie de Squid Game 2</h1>
+    <div id="countdown">
+        <div class="time">
+            <span id="days">0</span>
+            <label>Jours</label>
+        </div>
+        <div class="time">
+            <span id="hours">0</span>
+            <label>Heures</label>
+        </div>
+        <div class="time">
+            <span id="minutes">0</span>
+            <label>Minutes</label>
+        </div>
+        <div class="time">
+            <span id="seconds">0</span>
+            <label>Secondes</label>
+        </div>
+    </div>
+    <footer>
+        &copy; 2024 Netflix. Tous droits réservés.
+    </footer>
+
+    <script>
+        document.getElementById('play-audio').addEventListener('click', () => {
+            const audio = document.getElementById('background-audio');
+            audio.muted = false;
+            audio.play().then(() => {
+                console.log("Audio lancé avec succès.");
+                document.getElementById('play-audio').style.display = 'none'; // Masquer le bouton
+            }).catch(err => {
+                console.error("Erreur lors de la lecture audio :", err);
+                alert("Impossible de lire l'audio. Vérifiez les paramètres de votre navigateur.");
+            });
+        });
+
+        // Fonction de mise à jour du compte à rebours
+        function updateCountdown() {
+            const eventDate = new Date('2024-12-26T08:01:00Z'); // Date cible
+            const now = new Date();
+            const diff = eventDate - now;
+
+            if (diff <= 0) {
+                document.getElementById('countdown').innerHTML = "<h2>C'est l'heure !</h2>";
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = days;
+            document.getElementById('hours').textContent = hours;
+            document.getElementById('minutes').textContent = minutes;
+            document.getElementById('seconds').textContent = seconds;
+        }
+
+        setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>
